@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Journaling Assistant</title>
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', sans-serif;
+            background-color: #f4f1de;
+            color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .container {
+            background-color: #ffe66d;
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .journal-entry, .calendar-view {
+            margin-bottom: 20px;
+        }
+
+        .journal-entry input, .journal-entry textarea, .journal-entry select {
+            width: calc(100% - 22px);
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .journal-entry button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #ff6b6b;
+            color: #fff;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .journal-entry button:hover {
+            background-color: #ff9b9b;
+            transform: scale(1.05);
+        }
+
+        .calendar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .calendar-header {
+            margin-bottom: 10px;
+        }
+
+        .calendar-day {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 50%;
+            background-color: #ff6b6b;
+            color: #fff;
+            text-align: center;
+            margin: 2px;
+        }
+
+        .calendar-day:hover {
+            background-color: #ff9b9b;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Mental Health Journaling Assistant</h1>
+
+    <div class="container">
+
+        <!-- Journal Entry Section -->
+        <div class="journal-entry">
+            <h2>Reflect on Your Day</h2>
+            <input type="date" id="entry-date">
+            <select id="mood">
+                <option value="" disabled selected>Select your mood</option>
+                <option value="happy">Happy</option>
+                <option value="sad">Sad</option>
+                <option value="angry">Angry</option>
+                <option value="anxious">Anxious</option>
+                <option value="neutral">Neutral</option>
+            </select>
+            <input type="text" id="tags" placeholder="Enter tags (e.g., work, family)">
+            <textarea id="thoughts" rows="4" placeholder="Write your thoughts here..."></textarea>
+            <button id="save-entry">Save Entry</button>
+        </div>
+
+        <!-- Calendar View Section -->
+        <div class="calendar-view">
+            <h2>Emotional Calendar</h2>
+            <div class="calendar">
+                <div class="calendar-header">
+                    <span class="calendar-day">1</span>
+                    <span class="calendar-day">2</span>
+                    <span class="calendar-day">3</span>
+                    <span class="calendar-day">4</span>
+                    <span class="calendar-day">5</span>
+                    <span class="calendar-day">6</span>
+                    <span class="calendar-day">7</span>
+                    <span class="calendar-day">8</span>
+                    <span class="calendar-day">9</span>
+                    <span class="calendar-day">10</span>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        
+        let entries = [];
+
+        document.getElementById('save-entry').addEventListener('click', () => {
+            const date = document.getElementById('entry-date').value;
+            const mood = document.getElementById('mood').value;
+            const tags = document.getElementById('tags').value;
+            const thoughts = document.getElementById('thoughts').value;
+
+            if (date && mood && thoughts) {
+                entries.push({ date, mood, tags, thoughts });
+                alert('Entry saved!');
+                document.getElementById('entry-date').value = '';
+                document.getElementById('mood').value = '';
+                document.getElementById('tags').value = '';
+                document.getElementById('thoughts').value = '';
+                updateCalendar();
+            } else {
+                alert('Please fill out all fields!');
+            }
+        });
+
+        function updateCalendar() {
+            const calendarDays = document.querySelectorAll('.calendar-day');
+            calendarDays.forEach(day => {
+                day.style.backgroundColor = '#ffe66d'; 
+            });
+
+            entries.forEach(entry => {
+                const day = new Date(entry.date).getDate();
+                if (calendarDays[day - 1]) {
+                    calendarDays[day - 1].style.backgroundColor = '#ff6b6b'; 
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
